@@ -232,7 +232,16 @@ FourCharCode const videoFormat = kCVPixelFormatType_32BGRA;
   if ([_captureDevice position] == AVCaptureDevicePositionFront) {
     connection.videoMirrored = YES;
   }
-  connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+  UIDeviceOrientation orientation = UIDevice.currentDevice.orientation;
+    if (orientation == UIDeviceOrientationPortrait) {
+      connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+    } else if (orientation == UIDeviceOrientationLandscapeLeft) {
+      connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+    } else if (orientation == UIDeviceOrientationLandscapeRight) {
+      connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+    } else if (orientation == UIDeviceOrientationPortraitUpsideDown) {
+      connection.videoOrientation = AVCaptureVideoOrientationPortraitUpsideDown;
+    }
   [_captureSession addInputWithNoConnections:_captureVideoInput];
   [_captureSession addOutputWithNoConnections:_captureVideoOutput];
   [_captureSession addConnection:connection];
